@@ -1,11 +1,14 @@
 size = 20;
 hole_offset = 0;
+circle_size = 2;
 
+
+difference(){
 color("blue", 1.0){
     //base 
     square(size, center = true);
-    // holes
-    
+
+
     
 
     //side
@@ -15,4 +18,9 @@ color("blue", 1.0){
         }
     }
     
+}
+    // holes
+    color("yellow", 1.0){
+        circle(2, $fn = 10);
+    }
 }
