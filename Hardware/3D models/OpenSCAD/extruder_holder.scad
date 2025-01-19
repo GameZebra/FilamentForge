@@ -1,26 +1,41 @@
-size = 20;
+square_size = 40;
 hole_offset = 0;
-circle_size = 2;
+circle_size = 4.55;
 
 
-difference(){
+//difference(){
 color("blue", 1.0){
     //base 
-    square(size, center = true);
+    square(square_size, center = true);
 
 
     
 
     //side
-    translate([(size/2)-0.5,0,(size/2)-0.5]){
+    translate([(square_size/2)-0.5,0,(square_size/2)-0.5]){
         rotate([0, 90, 0]){
-            square(size, center = true);
+            square(square_size, center = true);
         }
     }
     
 }
-    // holes
+    // holes base
     color("yellow", 1.0){
-        circle(2, $fn = 10);
+        for(i = [0:2]){
+            rotate([0,0,120*i])
+            translate([11.5,0,0])
+            circle(circle_size, $fn = 100);       
+        }
+     // holes side
+        translate([(square_size/2)-0.5,0,(square_size/2)-0.5])
+        rotate([0,90,0])
+        
+        
+        for(i = [0:2]){
+            rotate([0,0,120*i+30])
+            translate([0,11.5,0])
+            circle(circle_size, $fn = 100);       
+        }
+          
     }
-}
+//}
