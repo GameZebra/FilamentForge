@@ -3,7 +3,7 @@ hole_offset = 0;
 circle_size = 4.55;
 
 
-//difference(){
+difference(){
 color("blue", 1.0){
     //base 
     square(square_size, center = true);
@@ -38,4 +38,4 @@ color("blue", 1.0){
         }
           
     }
-//}
+}
