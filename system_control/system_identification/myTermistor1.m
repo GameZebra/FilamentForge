@@ -1,6 +1,7 @@
-function error = myTermistor(params)
+function error = myTermistor1(params)
     A = params(1); % First parameter
     B = params(2); % Second parameter
+
 
     % Example error computation (replace with your actual model):
     % Suppose you have data and a model y = param1 * x + param2

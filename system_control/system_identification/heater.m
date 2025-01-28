@@ -47,11 +47,11 @@ grid on;
 %B=240;
 
 % Initial guess for parameters [param1, param2]
-initial_guess = [1, 1];
+initial_guess = [1500, 0.005];
 
 % Call fminsearch to minimize the error
 options = optimset('Display','iter','PlotFcns',@optimplotfval);
-optimized_params = fminsearch(@myTermistor, initial_guess, options);
+optimized_params = fminsearch(@myTermistor1, initial_guess, options);
 
 % Display results
 disp('Optimized Parameters:');
@@ -59,7 +59,7 @@ disp(optimized_params);
 
 A = optimized_params(1);
 B = optimized_params(2);
-Rt_predicted = A.*exp(B./Temperature);
+Rt1 = A.*exp(B./Temperature);
 
 
 figure(3);
@@ -69,7 +69,7 @@ ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature');
 grid on;
 hold on;
-plot(Temperature, Rt, 'g*');
+plot(Temperature, Rt1, 'g*');
 
 
 figure(4);
@@ -79,7 +79,7 @@ ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature (logaritmic)');
 grid on;
 hold on;
-plot(Temperature, Rt, 'g*');
+plot(Temperature, Rt1, 'g*');
 
 
 %% Steady-state characteristic
