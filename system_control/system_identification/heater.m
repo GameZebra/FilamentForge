@@ -97,6 +97,45 @@ hold on;
 plot(Temperature(1:44), Rt1, 'g*');
 plot(Temperature(44:60), Rt2, 'r*');
 
+
+%% resistor choice
+% we should choose a good resistances for the voltage dellitel for maximum
+% resolution
+% one of them must be exactly work point
+% the second one or 2 below it 
+U = 3.3;
+R = [100000:-1:40];
+Resistors = [35000,2500,150];
+
+figure(10)
+hold on, grid on;
+xlabel('Termistor resistance (Ohm)');
+ylabel('ADC value %');
+title('ADC % value with different voltage devidor resistors');
+I = U./(R+Resistors(1));
+plot(R, ((I.*R)/U)*100, 'r-');
+I = U./(R+Resistors(2));
+plot(R, ((I.*R)/U)*100, 'g-');
+I = U./(R+Resistors(3));
+plot(R, ((I.*R)/U)*100, 'b-');
+legend('35k', '2.5k', '150 Ohm')
+
+figure(11)
+I = U./(R+Resistors(1));
+semilogx(R, ((I.*R)/U)*100, 'r-');
+hold on, grid on;
+I = U./(R+Resistors(2));
+semilogx(R, ((I.*R)/U)*100, 'g-');
+I = U./(R+Resistors(3));
+semilogx(R, ((I.*R)/U)*100, 'b-');
+xlabel('Log Termistor resistance (Ohm)');
+ylabel('ADC value %');
+title('ADC % value with different voltage devidor resistors');
+legend('35k', '2.5k', '150 Ohm')
+
+
+
+
 %% Steady-state characteristic
 % requires a hardware system first
 % we generate test input signals with wich observe our object
