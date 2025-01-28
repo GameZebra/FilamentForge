@@ -8,13 +8,13 @@ function error = myTermistor1(params)
     filename = 'experiment_1.txt'; % Replace with your actual file name
     % Read the data from the file
     data = readmatrix(filename, 'Delimiter', ',', 'NumHeaderLines', 1);
-    R_actual = data(:, 3);
-    Temperature = data(:, 4);
+    R_actual = data(1:44, 3);
+    Temperature = data(1:44, 4);
 
     % Model prediction
 
     Rt_predicted = A.*exp(B./Temperature);
 
     % Compute error (sum of squared errors)
-    error = sum((R_actual - Rt_predicted).^2);
+    error = sum(abs(R_actual - Rt_predicted).*Temperature*10);
 end

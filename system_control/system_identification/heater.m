@@ -50,19 +50,20 @@ grid on;
 initial_guess_1 = [1500, 0.005];
 
 % Call fminsearch to minimize the error
-options = optimset('Display','iter','PlotFcns',@optimplotfval);
+options = optimset('Display','iter','PlotFcns',@optimplotfval, 'TolFun',1.0e-10, 'TolX', 1.0e-10);
 optimized_params = fminsearch(@myTermistor1, initial_guess_1, options);
 
 % Display results
 disp('Optimized Parameters:');
 disp(optimized_params);
 
-A = optimized_params(1);
-B = optimized_params(2);
-Rt1 = A.*exp(B./Temperature);
+A1 = optimized_params(1);
+B1 = optimized_params(2);
+Rt1 = A1.*exp(B1./Temperature(1:44));
 
+% Initial guess for parameters [param1, param2]
+initial_guess_2 = [100, 10];
 
-initial_guess_2 = [1500, 0.005, 0];
 % Call fminsearch to minimize the error
 options = optimset('Display','iter','PlotFcns',@optimplotfval);
 optimized_params = fminsearch(@myTermistor2, initial_guess_2, options);
@@ -71,10 +72,10 @@ optimized_params = fminsearch(@myTermistor2, initial_guess_2, options);
 disp('Optimized Parameters:');
 disp(optimized_params);
 
-A = optimized_params(1);
-B = optimized_params(2);
-C = optimized_params(3);
-T1 = 1./(A + B*log(Resistance) + C*(log(Resistance)).^3);
+A2 = optimized_params(1);
+B2 = optimized_params(2);
+Rt2 = A2.*exp(B2./Temperature(44:60));
+
 
 figure(3);
 plot(Temperature, Resistance, '-o');
@@ -83,9 +84,8 @@ ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature');
 grid on;
 hold on;
-plot(Temperature, Rt1, 'g*');
-plot(T1, Resistance, 'r*');
-
+plot(Temperature(1:44), Rt1, 'g*');
+plot(Temperature(44:60), Rt2, 'r*');
 
 figure(4);
 semilogy(Temperature, Resistance, '-o'); % Y-axis logarithmic
@@ -94,8 +94,8 @@ ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature (logaritmic)');
 grid on;
 hold on;
-plot(Temperature, Rt1, 'g*');
-plot(T1, Resistance, 'r*');
+plot(Temperature(1:44), Rt1, 'g*');
+plot(Temperature(44:60), Rt2, 'r*');
 
 %% Steady-state characteristic
 % requires a hardware system first
