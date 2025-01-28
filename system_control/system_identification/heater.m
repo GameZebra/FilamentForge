@@ -35,12 +35,42 @@ ylabel('Resistance (Ohm)');
 title('Heating element: Resistance with Temperature');
 grid on;
 
+
+% mat approximation of the termistor
+
+% initial guess 1
+% A = 1000;
+% B = 114;
+
+% initial guess 2
+%A=80;
+%B=240;
+
+% Initial guess for parameters [param1, param2]
+initial_guess = [1, 1];
+
+% Call fminsearch to minimize the error
+options = optimset('Display','iter','PlotFcns',@optimplotfval);
+optimized_params = fminsearch(@myTermistor, initial_guess, options);
+
+% Display results
+disp('Optimized Parameters:');
+disp(optimized_params);
+
+A = optimized_params(1);
+B = optimized_params(2);
+Rt_predicted = A.*exp(B./Temperature);
+
+
 figure(3);
 plot(Temperature, Resistance, '-o');
 xlabel('Temperature (C)');
 ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature');
 grid on;
+hold on;
+plot(Temperature, Rt, 'g*');
+
 
 figure(4);
 semilogy(Temperature, Resistance, '-o'); % Y-axis logarithmic
@@ -48,6 +78,8 @@ xlabel('Temperature (C)');
 ylabel('Resistance (Ohm)');
 title('Termistor: Resistance with Temperature (logaritmic)');
 grid on;
+hold on;
+plot(Temperature, Rt, 'g*');
 
 
 %% Steady-state characteristic
