@@ -1,3 +1,24 @@
+clear
+
+%% manual experiment
+% we measure the temperature with NTC Termistor and voltage devider
+% but because the termistor changes its resistance very non linearly 
+% and the process (termal) is very slow we did relatively fast manual
+% experiment on which basis to choose resistors for the voltage devider
+
+% import the data from the manual experiment
+
+filename = 'experiment_1.txt'; % Replace with your actual file name
+% Read the data from the file
+data = readmatrix(filename, 'Delimiter', ',', 'NumHeaderLines', 1);
+
+% Extract the columns
+Voltage = data(:, 1);
+Current = data(:, 2);
+Resistance = data(:, 3);
+Temperature = data(:, 4);
+
+
 %% Steady-state characteristic
 % requires a hardware system first
 % we generate test input signals with wich observe our object
@@ -18,7 +39,3 @@ fclose(fid);
 
 
 
-
-
-
-%%
