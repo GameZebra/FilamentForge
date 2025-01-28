@@ -19,6 +19,37 @@ Resistance = data(:, 3);
 Temperature = data(:, 4);
 
 
+
+% Example: Plot Voltage vs Current
+figure(1);
+plot(Voltage, Current, '-o');
+xlabel('Voltage (V)');
+ylabel('Current (A)');
+title('Heating element: Voltage vs Current');
+grid on;
+
+figure(2);
+plot(Temperature, Voltage./Current, '-o');
+xlabel('Temperature (C)');
+ylabel('Resistance (Ohm)');
+title('Heating element: Resistance with Temperature');
+grid on;
+
+figure(3);
+plot(Temperature, Resistance, '-o');
+xlabel('Temperature (C)');
+ylabel('Resistance (Ohm)');
+title('Termistor: Resistance with Temperature');
+grid on;
+
+figure(4);
+semilogy(Temperature, Resistance, '-o'); % Y-axis logarithmic
+xlabel('Temperature (C)');
+ylabel('Resistance (Ohm)');
+title('Termistor: Resistance with Temperature (logaritmic)');
+grid on;
+
+
 %% Steady-state characteristic
 % requires a hardware system first
 % we generate test input signals with wich observe our object
