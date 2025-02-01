@@ -8,8 +8,8 @@ function error = myTermistor2(params)
     filename = 'experiment_1.txt'; % Replace with your actual file name
     % Read the data from the file
     data = readmatrix(filename, 'Delimiter', ',', 'NumHeaderLines', 1);
-    R_actual = data(44:60, 3);
-    Temperature = data(44:60, 4);
+    R_actual = data(27:44, 3);
+    Temperature = data(27:44, 4);
 
     % Model prediction
 
