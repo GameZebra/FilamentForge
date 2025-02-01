@@ -155,14 +155,17 @@ legend('35k', '2.5k', '150 Ohm')
 
 
 
-%% Steady-state characteristic
+%% Steady-state characteristic  (FAST)
+% the fast uses less points to speed up the experiment
 % requires a hardware system first
 % we generate test input signals with wich observe our object
 % for example if you like me have a 24V heater 
 % we can start from 5V to 24V with 1V interval and plot that data
 
 % test input signal
-test_input = [5:24]
+% at 18V the heater is above 300 degrees
+% proceide with caution
+test_input = [3:3:18]
 
 % afterwards we read the file that contains the results of our experiment
 % and we plot them on a graph
