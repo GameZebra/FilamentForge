@@ -70,7 +70,9 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+  uint16_t rangeLow = 4095*0.2;
+  uint16_t rangeHigh = 4095*0.8;
+  uint16_t adcValue = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -94,13 +96,40 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 0);
+  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_ADC_Start(&hadc1);
+	  HAL_ADC_PollForConversion(&hadc1, 100);
+	  adcValue = HAL_ADC_GetValue(&hadc1);
+	  HAL_ADC_Stop(&hadc1);
+
+	  if(adcValue > rangeHigh){
+		  if(range1_GPIO_Port->ODR & range1_Pin){
+			  if(range2_GPIO_Port->ODR & range2_Pin){
+				  // do nothing
+			  }
+			  else{
+
+			  }
+		  }
+		  else{
+
+		  }
+
+		  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
+		  continue;
+	  }
+	  else{
+
+	  }
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -268,24 +297,24 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_5, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : PC5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pin : range2_Pin */
+  GPIO_InitStruct.Pin = range2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(range2_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PB0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pin : range1_Pin */
+  GPIO_InitStruct.Pin = range1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(range1_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
