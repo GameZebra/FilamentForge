@@ -109,25 +109,9 @@ int main(void)
 	  adcValue = HAL_ADC_GetValue(&hadc1);
 	  HAL_ADC_Stop(&hadc1);
 
-	  if(adcValue > rangeHigh){
-		  if(range1_GPIO_Port->ODR & range1_Pin){
-			  if(range2_GPIO_Port->ODR & range2_Pin){
-				  // do nothing
-			  }
-			  else{
-
-			  }
-		  }
-		  else{
-
-		  }
-
-		  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
-		  continue;
+	  // TO DO check the note file
 	  }
-	  else{
 
-	  }
 
 
     /* USER CODE END WHILE */
@@ -292,29 +276,18 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, range1_Pin|range2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : range2_Pin */
-  GPIO_InitStruct.Pin = range2_Pin;
+  /*Configure GPIO pins : range1_Pin range2_Pin */
+  GPIO_InitStruct.Pin = range1_Pin|range2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(range2_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : range1_Pin */
-  GPIO_InitStruct.Pin = range1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(range1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
