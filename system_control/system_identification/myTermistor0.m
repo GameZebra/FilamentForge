@@ -3,6 +3,8 @@ function error = myTermistor0(params)
     B1 = params(2); % Second parameter
     A2 = params(3);
     B2 = params(4);
+    A3 = params(5);
+    B3 = params(6);
 
 
     % Example error computation (replace with your actual model):
@@ -15,8 +17,8 @@ function error = myTermistor0(params)
 
     % Model prediction
 
-    Rt_predicted = A1.*exp(B1./Temperature) + A2.*exp(B2./Temperature);
+    Rt_predicted = A1.*exp(B1./Temperature) .* A2.*exp(B2./Temperature) .* A3.*exp(B3./Temperature);
 
-    % Compute error (sum of squared errors)
-    error = sum(abs(R_actual - Rt_predicted).*Temperature*10);
+    % Compute error (sum of absolute errors weighted with the temperature)
+    error = sum(abs(R_actual - Rt_predicted).*Temperature);
 end

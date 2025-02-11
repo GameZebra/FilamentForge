@@ -17,7 +17,7 @@ Temperature = data(:, 4);
 
 
 % Initial guess for parameters [param1, param2]
-initial_guess_0 = [52460, 30.2, -62740, 20.7];
+initial_guess_0 = [51460, 50.2, 1000, 206.7, 0, 0];
 
 % Call fminsearch to minimize the error
 options = optimset('Display','iter','PlotFcns',@optimplotfval, 'TolFun',1.0e-10, 'TolX', 1.0e-10);
@@ -31,7 +31,10 @@ A1 = optimized_params(1);
 B1 = optimized_params(2);
 A2 = optimized_params(3);
 B2 = optimized_params(4);
-Rt0 = A1.*exp(B1./Temperature) + A2.*exp(B2./Temperature);
+A3 = optimized_params(5);
+B3 = optimized_params(6);
+
+Rt0 = A1.*exp(B1./Temperature) .* A2.*exp(B2./Temperature) .* A3.*exp(B3./Temperature);
 
 
 figure(3);
