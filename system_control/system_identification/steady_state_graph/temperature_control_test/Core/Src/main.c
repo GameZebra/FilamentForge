@@ -45,7 +45,9 @@ ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
-
+uint16_t const rangeLow = 4095*0.2;
+uint16_t const rangeHigh = 4095*0.8;
+uint16_t adcValue = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -70,9 +72,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-  uint16_t rangeLow = 4095*0.2;
-  uint16_t rangeHigh = 4095*0.8;
-  uint16_t adcValue = 0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -96,8 +96,11 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 0);
-  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 0);
+  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
+  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 1);
+
+  __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,7 +113,8 @@ int main(void)
 	  HAL_ADC_Stop(&hadc1);
 
 	  // TO DO check the note file
-	  }
+
+
 
 
 
