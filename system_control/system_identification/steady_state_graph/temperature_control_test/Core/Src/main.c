@@ -96,6 +96,8 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
+
+  // TODO new MOSFETS
   HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
   HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 1);
 
