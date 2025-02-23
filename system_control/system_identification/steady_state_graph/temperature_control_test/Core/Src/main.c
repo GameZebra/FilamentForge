@@ -31,7 +31,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define logicVoltage 3.3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,6 +48,17 @@ TIM_HandleTypeDef htim4;
 uint16_t const rangeLow = 4095*0.2;
 uint16_t const rangeHigh = 4095*0.8;
 uint16_t adcValue = 0;
+
+// reading constants
+uint16_t const resistance[3] = {34350, 2320, 149};
+float const paramA[3] = {5487.3, 84.1512, 4.2549};
+float const paramB[3] = {72.6241, 371.3556, 827.1895};
+
+// Rt3 = A3.*exp(B3./Temperature(45:60));
+// formula to digitalize
+
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
