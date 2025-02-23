@@ -98,6 +98,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // TODO new MOSFETS
+  // Trying BS170p
   HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
   HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 1);
 
