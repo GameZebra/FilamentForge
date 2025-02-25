@@ -57,6 +57,10 @@ float const paramB[3] = {72.6241, 371.3556, 827.1895};
 
 uint32_t range[3] = {0x0, 0x1, 0x3};
 uint8_t state = 0;
+float termistorVoltage = 0;
+float currentResistor = 0;
+float termistorResistance = 0;
+float calculatedTemperature = 0;
 // Rt3 = A3.*exp(B3./Temperature(45:60));
 // formula to digitalize
 
@@ -142,9 +146,11 @@ int main(void)
 		  continue;
 	  }
 
-	  // TO DO check the note file
-
-
+	  // calculate termistor voltage drop
+	  termistorVoltage = (adcValue/4095.0) * logicVoltage;
+	  currentResistor = resistance[state];
+	  termistorResistance = currentResistor * (termistorVoltage / (logicVoltage - termistorVoltage));
+	  calculatedTemperature = paramB[state] / (log(termistorResistance)-log(paramA[state]));
 
 
 
