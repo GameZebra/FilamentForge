@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "math.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -54,6 +55,8 @@ uint16_t const resistance[3] = {34350, 2320, 149};
 float const paramA[3] = {5487.3, 84.1512, 4.2549};
 float const paramB[3] = {72.6241, 371.3556, 827.1895};
 
+uint32_t range[3] = {0x0, 0x1, 0x3};
+uint8_t state = 0;
 // Rt3 = A3.*exp(B3./Temperature(45:60));
 // formula to digitalize
 
@@ -125,6 +128,17 @@ int main(void)
 	  HAL_ADC_PollForConversion(&hadc1, 100);
 	  adcValue = HAL_ADC_GetValue(&hadc1);
 	  HAL_ADC_Stop(&hadc1);
+
+	  if ((adcValue > rangeHigh) && state != 0){
+		  state--;
+		  GPIOB->ODR = range[state];
+		  HAL_Delay(500);
+	  }
+	  else if ((adcValue < rangeLow) && state != 2){
+		  state++;
+		  GPIOB->ODR = range[state];
+		  HAL_Delay(500);
+	  }
 
 	  // TO DO check the note file
 
