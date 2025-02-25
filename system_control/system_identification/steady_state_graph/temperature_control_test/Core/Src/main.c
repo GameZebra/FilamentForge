@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define logicVoltage 3.3
+#define logicVoltage 2.91
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -46,12 +46,12 @@ ADC_HandleTypeDef hadc1;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
-uint16_t const rangeLow = 4095*0.2;
+uint16_t const rangeLow = 4095*0.25;
 uint16_t const rangeHigh = 4095*0.8;
 uint16_t adcValue = 0;
 
 // reading constants
-uint16_t const resistance[3] = {34350, 2320, 149};
+uint16_t const resistance[3] = {19600, 2220, 149}; //34350
 float const paramA[3] = {5487.3, 84.1512, 4.2549};
 float const paramB[3] = {72.6241, 371.3556, 827.1895};
 
@@ -151,7 +151,7 @@ int main(void)
 	  currentResistor = resistance[state];
 	  termistorResistance = currentResistor * (termistorVoltage / (logicVoltage - termistorVoltage));
 	  calculatedTemperature = paramB[state] / (log(termistorResistance)-log(paramA[state]));
-
+	  HAL_Delay(10);
 
 
     /* USER CODE END WHILE */
