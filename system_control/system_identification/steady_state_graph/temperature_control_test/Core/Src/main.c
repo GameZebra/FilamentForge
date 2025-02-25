@@ -132,12 +132,14 @@ int main(void)
 	  if ((adcValue > rangeHigh) && state != 0){
 		  state--;
 		  GPIOB->ODR = range[state];
-		  HAL_Delay(500);
+		  HAL_Delay(300);
+		  continue;
 	  }
 	  else if ((adcValue < rangeLow) && state != 2){
 		  state++;
 		  GPIOB->ODR = range[state];
-		  HAL_Delay(500);
+		  HAL_Delay(300);
+		  continue;
 	  }
 
 	  // TO DO check the note file
