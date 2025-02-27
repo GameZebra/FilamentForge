@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define logicVoltage 2.91
+#define logicVoltage 4.59
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,16 +51,16 @@ uint16_t const rangeHigh = 4095*0.8;
 uint16_t adcValue = 0;
 
 // reading constants
-uint16_t const resistance[3] = {19600, 2220, 149}; //34350
-float const paramA[3] = {5487.3, 84.1512, 4.2549};
-float const paramB[3] = {72.6241, 371.3556, 827.1895};
+uint16_t const resistance[3] = {34350, 2220, 149}; //34350
+double const paramA[3] = {5487.3, 84.1512, 4.2549};
+double const paramB[3] = {72.6241, 371.3556, 827.1895};
 
 uint32_t range[3] = {0x0, 0x1, 0x3};
 uint8_t state = 0;
 float termistorVoltage = 0;
 float currentResistor = 0;
 float termistorResistance = 0;
-float calculatedTemperature = 0;
+double calculatedTemperature = 0;
 // Rt3 = A3.*exp(B3./Temperature(45:60));
 // formula to digitalize
 
@@ -117,8 +117,8 @@ int main(void)
 
   // TODO new MOSFETS
   // Trying BS170p
-  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 1);
-  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 1);
+  HAL_GPIO_WritePin(range1_GPIO_Port, range1_Pin, 0);
+  HAL_GPIO_WritePin(range2_GPIO_Port, range2_Pin, 0);
 
   __HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_1, 0);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
@@ -133,7 +133,7 @@ int main(void)
 	  adcValue = HAL_ADC_GetValue(&hadc1);
 	  HAL_ADC_Stop(&hadc1);
 
-	  if ((adcValue > rangeHigh) && state != 0){
+	 /* if ((adcValue > rangeHigh) && state != 0){
 		  state--;
 		  GPIOB->ODR = range[state];
 		  HAL_Delay(300);
@@ -144,12 +144,12 @@ int main(void)
 		  GPIOB->ODR = range[state];
 		  HAL_Delay(300);
 		  continue;
-	  }
+	  }*/
 
 	  // calculate termistor voltage drop
-	  termistorVoltage = (adcValue/4095.0) * logicVoltage;
+	  termistorVoltage = (adcValue/4095.0) * (logicVoltage - 1.61);
 	  currentResistor = resistance[state];
-	  termistorResistance = currentResistor * (termistorVoltage / (logicVoltage - termistorVoltage));
+	  termistorResistance = currentResistor * (termistorVoltage / ((logicVoltage - 1.61) - termistorVoltage));
 	  calculatedTemperature = paramB[state] / (log(termistorResistance)-log(paramA[state]));
 	  HAL_Delay(10);
 
