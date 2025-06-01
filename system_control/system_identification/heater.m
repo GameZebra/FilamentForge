@@ -61,6 +61,7 @@ A1 = optimized_params(1);
 B1 = optimized_params(2);
 Rt1 = A1.*exp(B1./Temperature(1:26));
 
+
 % Initial guess for parameters [param1, param2]
 initial_guess_2 = [100, 10];
 
@@ -92,6 +93,39 @@ A3 = optimized_params(1);
 B3 = optimized_params(2);
 Rt3 = A3.*exp(B3./Temperature(45:60));
 
+initial_guess_4 = [100, 10];%, 1, 1];
+
+% Call fminsearch to minimize the error
+options = optimset('Display','iter','PlotFcns',@optimplotfval, 'TolFun',1.0e-10, 'TolX', 1.0e-10);
+optimized_params = fminsearch(@myTermistor11, initial_guess_4, options);
+
+% Display results
+disp('Optimized Parameters:');
+disp(optimized_params);
+
+
+A11 = optimized_params(1);
+B11 = optimized_params(2);
+%C11 = optimized_params(3);
+%D11 = optimized_params(4);
+Rt11 = A11.*exp(B11./Temperature);% + C11.*exp(D11./Temperature);
+
+
+
+% Call fminsearch to minimize the error
+options = optimset('Display','iter','PlotFcns',@optimplotfval, 'TolFun',1.0e-10, 'TolX', 1.0e-10);
+optimized_params = fminsearch(@myTermistor11, initial_guess_4, options);
+
+% Display results
+disp('Optimized Parameters:');
+disp(optimized_params);
+
+A12 = optimized_params(1);
+B12 = optimized_params(2);
+%C12 = optimized_params(3);
+%D12 = optimized_params(4);
+Rt12 = A12.*exp(B12./Temperature);% + C12.*exp(D12./Temperature);
+
 
 
 figure(3);
@@ -104,6 +138,9 @@ hold on;
 plot(Temperature(1:26), Rt1, 'g*');
 plot(Temperature(27:44), Rt2, 'y*');
 plot(Temperature(45:60), Rt3, 'r*');
+plot(Temperature, Rt11, 'b-');
+plot(Temperature, Rt12, 'k-');
+
 
 figure(4);
 semilogy(Temperature, Resistance, '-o'); % Y-axis logarithmic
@@ -115,6 +152,9 @@ hold on;
 plot(Temperature(1:26), Rt1, 'g*');
 plot(Temperature(27:44), Rt2, 'y*');
 plot(Temperature(45:60), Rt3, 'r*');
+plot(Temperature, Rt11, 'b-');
+plot(Temperature, Rt12, 'k--');
+
 
 
 %% resistor choice
